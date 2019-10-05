@@ -65,6 +65,14 @@ body {
 	text-align: center;
 }
 
+
+.alert {
+	margin: auto;
+	width: 80%;
+	text-align: center;
+	color: red;
+}
+
 .form-control {
   display: block;
   width: 100%;

@@ -1,10 +1,10 @@
 .wrapper
-  - flash.each do |message_type, message|
-    .alert
-      = message
   .login-card
     .login-img
       =image_tag "polylan.png"
+    - flash.each do |message_type, message|
+      .alert
+        = message
     .login-form
       = form_tag login_path, method: :post do
         %table{align: "center"}
