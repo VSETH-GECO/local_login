@@ -10,8 +10,8 @@ RUN rm -f /etc/service/nginx/down && rm /etc/nginx/sites-enabled/default
 # Add our server config
 ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
 
-# create the home directory && Set ruby version to 2.3.5
-RUN mkdir /home/app/webapp && bash -l -c 'rvm --default use ruby-2.6.0'
+# create the home directory && Set ruby version to 2.6.0
+RUN mkdir /home/app/webapp && bash -l -c 'rvm --default use ruby-2.6.3'
 
 # bundle install
 
