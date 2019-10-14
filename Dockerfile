@@ -26,4 +26,6 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ADD env.conf /etc/nginx/main.d/env.conf
 
+RUN npm install yarn -g
+
 RUN cd /home/app/webapp && bundle exec rails assets:precompile
