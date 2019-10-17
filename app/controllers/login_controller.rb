@@ -4,8 +4,7 @@ class LoginController < ApplicationController
   
   def show
     if session[:ip].present?
-      #byebug
-      #redirect_to action: 'commit'
+      redirect_to action: 'commit' and return
     end
   end
   
