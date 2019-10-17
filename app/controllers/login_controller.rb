@@ -29,7 +29,9 @@ class LoginController < ApplicationController
     api_request['Content-Type'] = 'application/x-www-form-urlencoded'
     api_request['X-API-KEY'] = Rails.configuration.api_key
     
-    return http.request(api_request).code
+    response = http.request(api_request)
+    puts response
+    return response.code
   end
   
   def translate_ip_to_vlan(user)
