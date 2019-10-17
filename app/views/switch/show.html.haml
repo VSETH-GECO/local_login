@@ -1,0 +1,14 @@
+.wrapper
+  .login-card
+    .login-img
+      =image_tag "polylan.png"
+    .login-form
+      = form_tag switch_path, method: :post do
+        %table{align: "center"}
+          %tr
+            %td
+              = "Select VLAN:"
+            %td
+              = select_tag "vlan", options_for_select(Array(700..710))
+        = submit_tag "Patch"
+        

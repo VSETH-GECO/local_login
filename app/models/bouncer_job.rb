@@ -1,0 +1,2 @@
+class BouncerJob < ApplicationRecord
+end

@@ -3,4 +3,7 @@
     .login-img
       =image_tag "polylan.png"
     .login-form
-      %h5 Successful
+      %h3 Successful
+      %h4
+        = "You are patched into VLAN #{@vlan}."
+      = link_to "Switch VLAN", switch_path
