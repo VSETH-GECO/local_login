@@ -1,2 +1,8 @@
-%h1 Switch#commit
-%p Find me in app/views/switch/commit.html.haml
+.wrapper
+  .login-card
+    .login-img
+      =image_tag "polylan.png"
+    .login-form
+      %h3 Successful
+      %h4
+        = "You are patched into VLAN #{@vlan}. Please allow up to 5 min for the internet to connect. If it not works after 5 min unplug and plug your port back in!"
