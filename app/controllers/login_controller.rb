@@ -3,21 +3,11 @@ class LoginController < ApplicationController
   require 'json'
   
   def show
-    if session[:ip].present?
-      redirect_to action: 'commit' and return
-    end
   end
   
   def commit
-    if session[:ip].blank?
-      result = api_request(params) == '200'
-    else
-      result = true
-    end
-    
-    if result
-      session[:ip] = request.remote_ip
-      @user = User.find_by(ip: session[:ip])
+    if api_request(params) == '200'
+      @user = User.find_by(ip: request.remote_ip)
       @vlan = translate_ip_to_vlan(@user)
       BouncerJob.new(clientMAC: @user.mac, targetVLAN: @vlan).save!
       render "success"
