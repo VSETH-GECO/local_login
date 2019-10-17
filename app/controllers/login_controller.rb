@@ -11,12 +11,12 @@ class LoginController < ApplicationController
   def commit
     if session[:ip].blank?
       result = api_request(params) == '200'
-      session[:ip] = request.remote_ip
     else
-      code = true
+      result = true
     end
     
-    if code
+    if result
+      session[:ip] = request.remote_ip
       @user = User.find_by(ip: session[:ip])
       @vlan = translate_ip_to_vlan(@user)
       BouncerJob.new(clientMAC: @user.mac, targetVLAN: @vlan).save!
