@@ -28,7 +28,7 @@ class LoginController < ApplicationController
     end
   end
   
-  def api_request
+  def api_request(params)
     uri = URI.parse('https://geco.ethz.ch/api/v2/auth')
     
     http = Net::HTTP.new(uri.host, uri.port)
