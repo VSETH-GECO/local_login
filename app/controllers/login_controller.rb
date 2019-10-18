@@ -8,7 +8,19 @@ class LoginController < ApplicationController
   def commit
     if api_request(params) == '200'
       @user = User.find_by(ip: request.remote_ip)
+      if @user.nil?
+        message  = 'User not found.'
+        flash[:danger] = message
+        render "show"
+        return
+      end
       @vlan = translate_ip_to_vlan(@user)
+      if @vlan.nil?
+        message  = 'VLAN not found.'
+        flash[:danger] = message
+        render "show"
+        return
+      end
       BouncerJob.new(clientMAC: @user.mac, targetVLAN: @vlan).save!
       render "success"
     else
