@@ -22,6 +22,7 @@ class LoginController < ApplicationController
         return
       end
       BouncerJob.new(clientMAC: @user.mac, targetVLAN: @vlan).save!
+      LoginLog.new(mac: @user.mac, username: params[:username]).save!
       render "success"
     else
       message  = 'Username or password incorrect.'
