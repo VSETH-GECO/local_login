@@ -6,45 +6,23 @@ class LoginController < ApplicationController
   end
   
   def commit
-    if api_request(params) == '200'
-      @user = User.find_by(ip: request.remote_ip)
-      if @user.nil?
-        message  = 'Host not found in RADIUS database.'
-        flash[:danger] = message
-        render "show"
-        return
-      end
-      @vlan = translate_ip_to_vlan(@user)
-      if @vlan.nil?
-        message  = 'VLAN for Switch not found.'
-        flash[:danger] = message
-        render "show"
-        return
-      end
-      BouncerJob.new(clientMAC: @user.mac, targetVLAN: @vlan).save!
-      LoginLog.new(mac: @user.mac, username: params[:username]).save!
-      render "success"
-    else
-      message  = 'Username or password incorrect.'
+    @user = User.find_by(ip: request.remote_ip)
+    if @user.nil?
+      message  = 'Host not found in RADIUS database.'
       flash[:danger] = message
       render "show"
+      return
     end
-  end
-  
-  def api_request(params)
-    uri = URI.parse('https://geco.ethz.ch/api/v2/auth')
-    
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-
-    api_request = Net::HTTP::Post.new(uri.request_uri)
-    api_request.set_form_data({'username': params[:username], 'password': params[:password]})
-    api_request['Content-Type'] = 'application/x-www-form-urlencoded'
-    api_request['X-API-KEY'] = Rails.configuration.api_key
-    
-    response = http.request(api_request)
-    puts response
-    return response.code
+    @vlan = translate_ip_to_vlan(@user)
+    if @vlan.nil?
+      message  = 'VLAN for Switch not found.'
+      flash[:danger] = message
+      render "show"
+      return
+    end
+    BouncerJob.new(clientMAC: @user.mac, targetVLAN: @vlan).save!
+    LoginLog.new(mac: @user.mac, username: params[:username]).save!
+    render "success"
   end
   
   def translate_ip_to_vlan(user)
